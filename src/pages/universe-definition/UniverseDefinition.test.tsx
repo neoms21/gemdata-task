@@ -5,6 +5,7 @@ import { http, HttpResponse } from 'msw';
 import { server } from '../../test/setup';
 import { UniverseDefinition } from './UniverseDefinition';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { MemoryRouter } from 'react-router-dom';
 
 const createTestQueryClient = () => new QueryClient({
   defaultOptions: {
@@ -17,13 +18,21 @@ const createTestQueryClient = () => new QueryClient({
 export function renderWithClient(ui: React.ReactElement) {
   const testQueryClient = createTestQueryClient();
   const { rerender, ...result } = render(
-    <QueryClientProvider client={testQueryClient}>{ui}</QueryClientProvider>
+    <QueryClientProvider client={testQueryClient}>
+      <MemoryRouter>
+        {ui}
+      </MemoryRouter>
+    </QueryClientProvider>
   );
   return {
     ...result,
     rerender: (rerenderUi: React.ReactElement) =>
       rerender(
-        <QueryClientProvider client={testQueryClient}>{rerenderUi}</QueryClientProvider>
+        <QueryClientProvider client={testQueryClient}>
+          <MemoryRouter>
+            {rerenderUi}
+          </MemoryRouter>
+        </QueryClientProvider>
       ),
   };
 }

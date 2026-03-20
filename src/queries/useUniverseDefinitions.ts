@@ -5,21 +5,31 @@ import { format } from "date-fns";
 const DATE_FORMAT = "dd/MM/yyyy hh:mm aa";
 
 const orderDataAndFormatDate = (data: UniverseDefinitionItem[]) => {
-  const sorted = [...data].sort((a, b) => {
-    const dateA = new Date(a.date).getTime();
-    const dateB = new Date(b.date).getTime();
-    return dateB - dateA;
-  });
+  const withTimestamps = data.map((item) => ({
+    ...item,
+    timestamp: new Date(item.date).getTime(),
+  }));
 
+  const sorted = withTimestamps.sort((a, b) => b.timestamp - a.timestamp);
+
+  const latest: (UniverseDefinitionItem & { originalDate: string })[] = [];
+  const others: (UniverseDefinitionItem & { originalDate: string })[] = [];
   const seenServices = new Set<string>();
-  return sorted.map((item) => {
-    const originalDate = format(new Date(item.date), DATE_FORMAT);
+
+  for (const item of sorted) {
+    const originalDate = format(item.timestamp, DATE_FORMAT);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { timestamp, ...rest } = item;
+
     if (!seenServices.has(item.service)) {
       seenServices.add(item.service);
-      return { ...item, date: "Latest", originalDate };
+      latest.push({ ...rest, date: "Latest", originalDate });
+    } else {
+      others.push({ ...rest, date: originalDate, originalDate });
     }
-    return { ...item, date: originalDate, originalDate };
-  });
+  }
+
+  return [...latest, ...others];
 };
 
 export function useUniverseDefinitions() {

@@ -162,4 +162,54 @@ describe("useUniverseDefinitions", () => {
     const hkg2Item = result.current.data?.find((item) => item.id === "2");
     expect(hkg2Item?.date).toBe("14/03/2026 03:23 PM");
   });
+
+  it("should return all the latests at top and after that sorted by date descending", async () => {
+    const result = render([
+      {
+        id: "1",
+        date: "2026-03-18T15:23:12.000Z",
+        service: "equity_vanilla_option",
+        region: "HKG",
+        submittedBy: "Alice",
+        canUploadSUD: true,
+      },
+      {
+        id: "2",
+        date: "2026-03-14T15:23:12.000Z",
+        service: "equity_vanilla_option",
+        region: "HKG",
+        submittedBy: "Alice",
+        canUploadSUD: true,
+      },
+      {
+        id: "3",
+        date: "2026-03-20T12:00:00.000Z",
+        service: "equity_forward_ndf",
+        region: "SGP",
+        submittedBy: "Bob",
+        canUploadSUD: false,
+      },
+      {
+        id: "4",
+        date: "2026-06-16T08:00:00.000Z",
+        service: "equity_barrier_option",
+        region: "LDN",
+        submittedBy: "Carol",
+        canUploadSUD: true,
+      },
+      {
+        id: "5",
+        date: "2026-06-15T08:00:00.000Z",
+        service: "equity_barrier_option",
+        region: "LDN",
+        submittedBy: "Carol",
+        canUploadSUD: true,
+      },
+    ]);
+
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+    const itemsOrder = result.current.data?.map((item) => item.id);
+    expect(itemsOrder).toEqual(["4", "3", "1", "5", "2"]);
+  });
 });
