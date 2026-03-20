@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import {
   PanelLeft,
   ChevronRight,
@@ -12,7 +12,6 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import type { UniverseDefinitionItem } from "../../types/universe-definition";
 import {
   Table,
   TableBody,
@@ -23,31 +22,16 @@ import {
 } from "../../components/ui/table";
 import { columns } from "./column-defs";
 import { UploadUniverseDefinition } from "@/components/UploadUniverseDefinition";
+import { UploadModal } from "@/components/UploadModal";
+import { useUniverseDefinitions } from "../../queries/useUniverseDefinitions";
 
 const PAGE_SIZE = 7;
 
 export function UniverseDefinition() {
   const [searchTerm, setSearchTerm] = useState("");
   const [rowSelection, setRowSelection] = useState({});
-  const [data, setData] = useState<UniverseDefinitionItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetch("http://localhost:3000/universeDefinitions")
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch data");
-        return res.json();
-      })
-      .then((fetchedData) => {
-        setData(fetchedData);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, []);
+  const { data = [], isLoading: loading, error } = useUniverseDefinitions();
 
   const filteredData = useMemo(
     () =>
@@ -91,16 +75,18 @@ export function UniverseDefinition() {
             Universe Definition
           </h1>
           {data.length > 0 && (
-            <button className="bg-[#18181b] hover:bg-black text-white px-4 py-2.5 rounded-lg shadow-sm flex items-center gap-2 text-sm font-medium transition-colors">
-              <Upload className="w-[18px] h-[18px]" strokeWidth={2} />
-              Upload new version(s)
-            </button>
+            <UploadModal>
+              <button className="bg-[#18181b] hover:bg-black text-white px-4 py-2.5 rounded-lg shadow-sm flex items-center gap-2 text-sm font-medium transition-colors">
+                <Upload className="w-[18px] h-[18px]" strokeWidth={2} />
+                Upload new version(s)
+              </button>
+            </UploadModal>
           )}
         </div>
 
         {error ? (
           <div className="p-8 text-center text-red-500 border border-gray-200 rounded-xl bg-white shadow-sm mt-4">
-            Error: {error}
+            Error: {error.message}
           </div>
         ) : loading ? (
           <div className="p-8 text-center text-gray-500 border border-gray-200 rounded-xl bg-white shadow-sm mt-4">

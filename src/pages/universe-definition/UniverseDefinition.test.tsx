@@ -4,6 +4,29 @@ import { describe, it, expect } from 'vitest';
 import { http, HttpResponse } from 'msw';
 import { server } from '../../test/setup';
 import { UniverseDefinition } from './UniverseDefinition';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const createTestQueryClient = () => new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+  },
+});
+
+export function renderWithClient(ui: React.ReactElement) {
+  const testQueryClient = createTestQueryClient();
+  const { rerender, ...result } = render(
+    <QueryClientProvider client={testQueryClient}>{ui}</QueryClientProvider>
+  );
+  return {
+    ...result,
+    rerender: (rerenderUi: React.ReactElement) =>
+      rerender(
+        <QueryClientProvider client={testQueryClient}>{rerenderUi}</QueryClientProvider>
+      ),
+  };
+}
 
 const mockData = [
   {
@@ -32,7 +55,7 @@ describe('UniverseDefinition component', () => {
       })
     );
     
-    render(<UniverseDefinition />);
+    renderWithClient(<UniverseDefinition />);
     expect(screen.getByText(/Loading data.../i)).toBeInTheDocument();
   });
 
@@ -43,7 +66,7 @@ describe('UniverseDefinition component', () => {
       })
     );
 
-    render(<UniverseDefinition />);
+    renderWithClient(<UniverseDefinition />);
     
     await waitFor(() => {
       expect(screen.getByText(/No universe definitions yet/i)).toBeInTheDocument();
@@ -59,7 +82,7 @@ describe('UniverseDefinition component', () => {
       })
     );
 
-    render(<UniverseDefinition />);
+    renderWithClient(<UniverseDefinition />);
     
     await waitFor(() => {
       expect(screen.getByText('equity_vanilla_option')).toBeInTheDocument();
@@ -77,7 +100,7 @@ describe('UniverseDefinition component', () => {
       })
     );
 
-    render(<UniverseDefinition />);
+    renderWithClient(<UniverseDefinition />);
     
     await waitFor(() => {
       expect(screen.getByText(/Error: Failed to fetch data/i)).toBeInTheDocument();
@@ -91,7 +114,7 @@ describe('UniverseDefinition component', () => {
       })
     );
 
-    render(<UniverseDefinition />);
+    renderWithClient(<UniverseDefinition />);
     
     // Wait for data to load
     await waitFor(() => {
