@@ -15,6 +15,30 @@
       "region": "LDN",
       "submittedBy": "Manoj S.",
       "canUploadSUD": true
+    },
+    {
+      "id": "1774008484230",
+      "date": "2026-03-20T12:08:04.230Z",
+      "service": "equity_barrier_option",
+      "region": "HKG",
+      "submittedBy": "Manoj S.",
+      "canUploadSUD": true
+    },
+    {
+      "id": "1774008507659",
+      "date": "2026-03-20T12:08:27.659Z",
+      "service": "equity_forward_ndf",
+      "region": "SGP",
+      "submittedBy": "Manoj S.",
+      "canUploadSUD": true
+    },
+    {
+      "id": "1774008516553",
+      "date": "2026-03-20T12:08:36.553Z",
+      "service": "equity_barrier_option",
+      "region": "HKG",
+      "submittedBy": "Manoj S.",
+      "canUploadSUD": true
     }
   ]
 }
