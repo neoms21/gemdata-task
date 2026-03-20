@@ -20,7 +20,7 @@ import { UniverseDefinitionFooter } from "./UniverseDefinitionFooter";
 import { TooltipProvider } from "./ui/tooltip";
 import { useDeleteUniverseDefinition } from "../queries/useUniverseDefinitions";
 
-const PAGE_SIZE = 4;
+const PAGE_SIZE = 7;
 
 interface UniverseDefinitionTableProps {
   data: UniverseDefinitionItem[];

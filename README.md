@@ -9,10 +9,16 @@ Currently, two official plugins are available:
 
 ## How to run
 
-Start the local server
-npx json-server db.json
+Install dependencies
 
-Start the application
+```bash
+npm install
+```
+
+Start both the local JSON server and the Vite application with a single command:
+
+```bash
 npm run dev
+```
 
-Application will start at http://localhost:5173/
+The application will be available at [http://localhost:5173/](http://localhost:5173/) and the API at [http://localhost:3000/](http://localhost:3000/).
