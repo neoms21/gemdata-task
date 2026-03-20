@@ -20,7 +20,7 @@ import { UniverseDefinitionFooter } from "./UniverseDefinitionFooter";
 import { TooltipProvider } from "./ui/tooltip";
 import { useDeleteUniverseDefinition } from "../queries/useUniverseDefinitions";
 
-const PAGE_SIZE = 7;
+const PAGE_SIZE = 4;
 
 interface UniverseDefinitionTableProps {
   data: UniverseDefinitionItem[];
@@ -73,7 +73,9 @@ export function UniverseDefinitionTable({
     ) {
       try {
         await Promise.all(
-          selectedRows.map((row) => deleteMutation.mutateAsync(row.original.id)),
+          selectedRows.map((row) =>
+            deleteMutation.mutateAsync(row.original.id),
+          ),
         );
         setRowSelection({});
       } catch (error) {
