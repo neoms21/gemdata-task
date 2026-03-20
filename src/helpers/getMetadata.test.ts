@@ -1,13 +1,24 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 import { getMetadataFromFileName } from "./getMetadata";
 
 describe("getMetadataFromFileName", () => {
+  const mockDate = new Date("2026-03-20T12:00:00.000Z");
+
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(mockDate);
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it("extracts service, region, and date correctly", () => {
     const result = getMetadataFromFileName("equity_vanilla_option_ldn.csv");
     expect(result).toEqual({
       service: "equity_vanilla_option",
       region: "LDN",
-      date: "Latest",
+      date: mockDate.toISOString(),
       isFileNameValid: true,
       uploadedBy: "Manoj S.",
     });

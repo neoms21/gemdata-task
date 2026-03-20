@@ -22,7 +22,7 @@ export const getMetadataFromFileName = (fileName: string): FileMetadata => {
   return {
     service: `${assetClass}_${productType}_${type}`,
     region: region.toUpperCase(),
-    date: "Latest",
+    date: new Date().toISOString(),
     isFileNameValid: true,
     uploadedBy: "Manoj S.",
   };
