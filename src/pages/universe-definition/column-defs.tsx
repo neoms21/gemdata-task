@@ -1,8 +1,13 @@
 import { type ColumnDef } from "@tanstack/react-table";
 import { type UniverseDefinitionItem } from "../../types/universe-definition";
 import { Checkbox } from "../../components/ui/checkbox";
-import { Download, Info, MoreVertical, Upload } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../../components/ui/tooltip";
+import { Info } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "../../components/ui/tooltip";
+import { ActionsCell } from "./ActionsCell";
 
 export const columns: ColumnDef<UniverseDefinitionItem>[] = [
   {
@@ -44,7 +49,9 @@ export const columns: ColumnDef<UniverseDefinitionItem>[] = [
       if (date === "Latest" && originalDate) {
         return (
           <div className="flex items-center gap-1.5">
-            <span className="text-[13px] text-gray-900 font-medium">{date}</span>
+            <span className="text-[13px] text-gray-900 font-medium">
+              {date}
+            </span>
             <Tooltip>
               <TooltipTrigger className="cursor-help transition-colors text-gray-400 hover:text-gray-600 outline-none">
                 <Info className="w-3.5 h-3.5" strokeWidth={2} />
@@ -92,20 +99,6 @@ export const columns: ColumnDef<UniverseDefinitionItem>[] = [
   {
     id: "actions",
     header: () => <span className="flex justify-center">SUD</span>,
-    cell: ({ row }) => (
-      <div className="flex items-center justify-center gap-2">
-        <button className="p-1.5 border border-gray-200 rounded-[5px] text-gray-600 hover:bg-gray-50 transition-colors shadow-sm bg-white">
-          <Download className="w-4 h-4" strokeWidth={1.5} />
-        </button>
-        {row.original.canUploadSUD && (
-          <button className="p-1.5 border border-gray-900 rounded-[5px] bg-[#18181b] text-white hover:bg-black transition-colors shadow-sm">
-            <Upload className="w-4 h-4" strokeWidth={1.5} />
-          </button>
-        )}
-        <button className="p-1 text-gray-400 hover:text-gray-900 opacity-60 hover:opacity-100 transition-opacity">
-          <MoreVertical className="w-4 h-4" strokeWidth={1.5} />
-        </button>
-      </div>
-    ),
+    cell: ({ row }) => <ActionsCell row={row} />,
   },
 ];

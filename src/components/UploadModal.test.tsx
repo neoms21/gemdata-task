@@ -5,6 +5,7 @@ import { http, HttpResponse } from "msw";
 import { server } from "../test/setup";
 import { UploadModal } from "./UploadModal";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { API_URL } from "@/helpers/constants";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -122,17 +123,14 @@ describe("UploadModal component", () => {
       [key: string]: unknown;
     } | null = null;
     server.use(
-      http.post(
-        "http://localhost:3000/universeDefinitions",
-        async ({ request }) => {
-          postData = (await request.json()) as {
-            service?: string;
-            region?: string;
-            [key: string]: unknown;
-          };
-          return HttpResponse.json({ success: true }, { status: 201 });
-        },
-      ),
+      http.post(API_URL, async ({ request }) => {
+        postData = (await request.json()) as {
+          service?: string;
+          region?: string;
+          [key: string]: unknown;
+        };
+        return HttpResponse.json({ success: true }, { status: 201 });
+      }),
     );
 
     const { container } = render(

@@ -9,6 +9,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { getMetadataFromFileName } from "@/helpers/getMetadata";
+import { API_URL } from "@/helpers/constants";
 
 interface UploadModalProps {
   children: React.ReactElement;
@@ -70,7 +71,7 @@ export const UploadModal = ({ children }: UploadModalProps) => {
         canUploadSUD: true,
       };
 
-      const res = await fetch("http://localhost:3000/universeDefinitions", {
+      const res = await fetch(API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newEntry),
@@ -85,7 +86,9 @@ export const UploadModal = ({ children }: UploadModalProps) => {
       setIsOpen(false);
       setSelectedFile(null);
       // Invalidate query to reflect newly added data
-      await queryClient.invalidateQueries({ queryKey: ["universeDefinitions"] });
+      await queryClient.invalidateQueries({
+        queryKey: ["universeDefinitions"],
+      });
     } catch (err: unknown) {
       setError(
         err instanceof Error ? err.message : "An unexpected error occurred",

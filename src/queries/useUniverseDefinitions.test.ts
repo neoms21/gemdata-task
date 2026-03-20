@@ -6,6 +6,7 @@ import { createElement } from "react";
 import { server } from "../test/setup";
 import { describe, it, expect, beforeEach } from "vitest";
 import { useUniverseDefinitions } from "./useUniverseDefinitions";
+import { API_URL } from "@/helpers/constants";
 
 const createWrapper = () => {
   const queryClient = new QueryClient({
@@ -53,8 +54,6 @@ const render = (data = mockData) => {
   });
   return result;
 };
-
-const API_URL = "http://localhost:3000/universeDefinitions";
 
 describe("useUniverseDefinitions", () => {
   beforeEach(() => {});

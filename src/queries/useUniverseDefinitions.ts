@@ -1,6 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import type { UniverseDefinitionItem } from "../types/universe-definition";
 import { format } from "date-fns";
+import { API_URL } from "@/helpers/constants";
 
 const DATE_FORMAT = "dd/MM/yyyy hh:mm aa";
 
@@ -36,7 +37,7 @@ export function useUniverseDefinitions() {
   return useQuery<UniverseDefinitionItem[], Error>({
     queryKey: ["universeDefinitions"],
     queryFn: async () => {
-      const response = await fetch("http://localhost:3000/universeDefinitions");
+      const response = await fetch(API_URL);
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
@@ -44,6 +45,24 @@ export function useUniverseDefinitions() {
     },
     select: (data) => {
       return orderDataAndFormatDate(data);
+    },
+  });
+}
+
+export function useDeleteUniverseDefinition() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await fetch(`${API_URL}/${id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        throw new Error("Failed to delete universe definition");
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["universeDefinitions"] });
     },
   });
 }
