@@ -1,6 +1,13 @@
 {
   "universeDefinitions": [
     {
+      "date": "2026-02-20T14:26:31.694Z",
+      "service": "equity_forward_ndf",
+      "region": "SGP",
+      "submittedBy": "Clay Simonis",
+      "id": "1774016731694"
+    },
+    {
       "date": "2026-03-20T14:26:31.694Z",
       "service": "equity_forward_ndf",
       "region": "SGP",
@@ -36,6 +43,24 @@
       "canUploadSUD": true,
       "data": "Underlier,trading_region,date_min_current,date_max_current,strike_min_current,strike_max_current\nspx +,HKG +,1d +,10y +,50 +,200 +\nmstf.n,AMER,1m +,5y +,50,150\nmstf.n,AMER,1w -,10y -,50,150\nnikkei,APAC,1w,10y,75 +,200 +\nnikkei,APAC,1w,10y,50 -,150 -\n",
       "id": "1774018321927"
+    },
+    {
+      "date": "2026-03-20T16:07:50.935Z",
+      "service": "equity_vanilla_option",
+      "region": "LDN",
+      "submittedBy": "Ricardo Kirlin",
+      "canUploadSUD": true,
+      "data": "Underlier,trading_region,date_min_current,date_max_current,strike_min_current,strike_max_current\nspx +,HKG +,1d +,10y +,50 +,200 +\nmstf.n,AMER,1m +,5y +,50,150\nmstf.n,AMER,1w -,10y -,50,150\nnikkei,APAC,1w,10y,75 +,200 +\nnikkei,APAC,1w,10y,50 -,150 -\n",
+      "id": "1774022870936"
+    },
+    {
+      "date": "2026-03-20T16:08:04.920Z",
+      "service": "equity_vanilla_option",
+      "region": "SGP",
+      "submittedBy": "Joaquin Walsh Jr.",
+      "canUploadSUD": true,
+      "data": "Underlier,trading_region,date_min_current,date_max_current,strike_min_current,strike_max_current\nspx +,HKG +,1d +,10y +,50 +,200 +\nmstf.n,AMER,1m +,5y +,50,150\nmstf.n,AMER,1w -,10y -,50,150\nnikkei,APAC,1w,10y,75 +,200 +\nnikkei,APAC,1w,10y,50 -,150 -\n",
+      "id": "1774022884921"
     }
   ]
 }

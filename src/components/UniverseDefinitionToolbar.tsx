@@ -1,4 +1,13 @@
-import { ChevronDown, Calendar, Trash2 } from "lucide-react";
+import { ChevronDown, Calendar as CalendarIcon, Trash2, X } from "lucide-react";
+import { format } from "date-fns";
+import { type DateRange } from "react-day-picker";
+import { cn } from "@/lib/utils";
+import { Calendar } from "./ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "./ui/popover";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,6 +25,8 @@ interface UniverseDefinitionToolbarProps {
   onRegionFilterChange: (value: string) => void;
   serviceFilter: string;
   onServiceFilterChange: (value: string) => void;
+  dateRange: DateRange | undefined;
+  onDateRangeChange: (range: DateRange | undefined) => void;
   selectedCount?: number;
   onDelete?: () => void;
 }
@@ -28,12 +39,19 @@ export function UniverseDefinitionToolbar({
   onRegionFilterChange,
   serviceFilter,
   onServiceFilterChange,
+  dateRange,
+  onDateRangeChange,
   selectedCount = 0,
   onDelete,
 }: UniverseDefinitionToolbarProps) {
   // Extract unique values from data
   const regions = Array.from(new Set(data.map((item) => item.region))).sort();
   const services = Array.from(new Set(data.map((item) => item.service))).sort();
+
+  const handleClearDate = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onDateRangeChange(undefined);
+  };
 
   return (
     <div className="flex items-center gap-4 mb-4">
@@ -143,10 +161,55 @@ export function UniverseDefinitionToolbar({
         </button>
 
         <div className="w-px h-5 bg-gray-200 mx-1" />
-        <button className="bg-gray-50/80 hover:bg-gray-100 border border-gray-200 px-2.5 py-1.5 rounded-lg text-xs font-medium text-gray-700 flex items-center gap-2 transition-colors">
-          <Calendar className="w-3.5 h-3.5" strokeWidth={2} />
-          Date
-        </button>
+        
+        {/* Date Range Picker */}
+        <div className="relative pt-1.5">
+          <span className="absolute -top-1 left-2.5 text-[10px] font-bold text-gray-400 uppercase tracking-tight bg-white leading-none z-10">
+            Date
+          </span>
+          <Popover>
+            <PopoverTrigger
+              className={cn(
+                "bg-gray-50/80 hover:bg-gray-100 border border-gray-200 h-8 px-2.5 py-1.5 rounded-lg text-xs font-normal text-gray-700 flex items-center gap-2 transition-colors outline-none pr-2",
+                !dateRange && "text-muted-foreground"
+              )}
+            >
+              <CalendarIcon className="w-3.5 h-3.5 text-gray-400" strokeWidth={2} />
+              <div className="flex items-center gap-2">
+                {dateRange?.from ? (
+                  dateRange.to ? (
+                    <>
+                      {format(dateRange.from, "LLL dd, y")} -{" "}
+                      {format(dateRange.to, "LLL dd, y")}
+                    </>
+                  ) : (
+                    format(dateRange.from, "LLL dd, y")
+                  )
+                ) : (
+                  <span>Pick a date range</span>
+                )}
+                {dateRange && (
+                  <div
+                    onClick={handleClearDate}
+                    className="p-0.5 hover:bg-gray-200 rounded-sm transition-colors cursor-pointer ml-1"
+                  >
+                    <X className="w-3 h-3 text-gray-400 hover:text-gray-600" strokeWidth={2.5} />
+                  </div>
+                )}
+              </div>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="end">
+              <Calendar
+                initialFocus
+                mode="range"
+                defaultMonth={dateRange?.from}
+                selected={dateRange}
+                onSelect={onDateRangeChange}
+                numberOfMonths={2}
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
       </div>
     </div>
   );

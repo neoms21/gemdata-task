@@ -1,5 +1,12 @@
 import { useState, useMemo } from "react";
 import {
+  isWithinInterval,
+  startOfDay,
+  endOfDay,
+  parse,
+} from "date-fns";
+import { type DateRange } from "react-day-picker";
+import {
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
@@ -19,6 +26,7 @@ import { UniverseDefinitionToolbar } from "./UniverseDefinitionToolbar";
 import { UniverseDefinitionFooter } from "./UniverseDefinitionFooter";
 import { TooltipProvider } from "./ui/tooltip";
 import { useDeleteUniverseDefinition } from "../queries/useUniverseDefinitions";
+import { DATE_FORMAT } from "@/helpers/constants";
 
 const PAGE_SIZE = 7;
 
@@ -33,6 +41,7 @@ export function UniverseDefinitionTable({
   const [searchTerm, setSearchTerm] = useState("");
   const [regionFilter, setRegionFilter] = useState<string>("All");
   const [serviceFilter, setServiceFilter] = useState<string>("All");
+  const [dateRange, setDateRange] = useState<DateRange | undefined>();
 
   const deleteMutation = useDeleteUniverseDefinition();
 
@@ -48,9 +57,23 @@ export function UniverseDefinitionTable({
       const matchesService =
         serviceFilter === "All" || item.service === serviceFilter;
 
-      return matchesSearch && matchesRegion && matchesService;
+      let matchesDate = true;
+      if (dateRange?.from) {
+        const itemDate = parse(
+          item.originalDate || "",
+          DATE_FORMAT,
+          new Date(),
+        );
+        const start = startOfDay(dateRange.from);
+        const end = dateRange.to
+          ? endOfDay(dateRange.to)
+          : endOfDay(dateRange.from);
+        matchesDate = isWithinInterval(itemDate, { start, end });
+      }
+
+      return matchesSearch && matchesRegion && matchesService && matchesDate;
     });
-  }, [searchTerm, regionFilter, serviceFilter, data]);
+  }, [searchTerm, regionFilter, serviceFilter, dateRange, data]);
 
   const table = useReactTable({
     data: filteredData,
@@ -95,6 +118,8 @@ export function UniverseDefinitionTable({
         onRegionFilterChange={setRegionFilter}
         serviceFilter={serviceFilter}
         onServiceFilterChange={setServiceFilter}
+        dateRange={dateRange}
+        onDateRangeChange={setDateRange}
         selectedCount={selectedRowsCount}
         onDelete={handleBulkDelete}
       />

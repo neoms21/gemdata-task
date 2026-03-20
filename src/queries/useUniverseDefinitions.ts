@@ -1,9 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import type { UniverseDefinitionItem } from "../types/universe-definition";
 import { format } from "date-fns";
-import { API_URL } from "@/helpers/constants";
-
-const DATE_FORMAT = "dd/MM/yyyy hh:mm aa";
+import { API_URL, DATE_FORMAT } from "@/helpers/constants";
 
 const orderDataAndFormatDate = (data: UniverseDefinitionItem[]) => {
   const withTimestamps = data.map((item) => ({
