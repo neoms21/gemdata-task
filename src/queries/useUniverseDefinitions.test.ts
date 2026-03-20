@@ -23,7 +23,6 @@ const mockData: UniverseDefinitionItem[] = [
     service: "equity_vanilla_option",
     region: "HKG",
     submittedBy: "Alice",
-    canUploadSUD: true,
   },
   {
     id: "2",
@@ -39,7 +38,6 @@ const mockData: UniverseDefinitionItem[] = [
     service: "equity_barrier_option",
     region: "LDN",
     submittedBy: "Carol",
-    canUploadSUD: true,
   },
 ];
 
@@ -125,7 +123,6 @@ describe("useUniverseDefinitions", () => {
         service: "equity_vanilla_option",
         region: "HKG",
         submittedBy: "Alice",
-        canUploadSUD: true,
       },
       {
         id: "2",
@@ -133,7 +130,6 @@ describe("useUniverseDefinitions", () => {
         service: "equity_vanilla_option",
         region: "HKG",
         submittedBy: "Alice",
-        canUploadSUD: true,
       },
       {
         id: "3",
@@ -149,7 +145,6 @@ describe("useUniverseDefinitions", () => {
         service: "equity_barrier_option",
         region: "LDN",
         submittedBy: "Carol",
-        canUploadSUD: true,
       },
     ]);
 
@@ -170,7 +165,6 @@ describe("useUniverseDefinitions", () => {
         service: "equity_vanilla_option",
         region: "HKG",
         submittedBy: "Alice",
-        canUploadSUD: true,
       },
       {
         id: "2",
@@ -178,7 +172,6 @@ describe("useUniverseDefinitions", () => {
         service: "equity_vanilla_option",
         region: "HKG",
         submittedBy: "Alice",
-        canUploadSUD: true,
       },
       {
         id: "3",
@@ -186,7 +179,6 @@ describe("useUniverseDefinitions", () => {
         service: "equity_forward_ndf",
         region: "SGP",
         submittedBy: "Bob",
-        canUploadSUD: false,
       },
       {
         id: "4",
@@ -194,7 +186,6 @@ describe("useUniverseDefinitions", () => {
         service: "equity_barrier_option",
         region: "LDN",
         submittedBy: "Carol",
-        canUploadSUD: true,
       },
       {
         id: "5",
@@ -202,7 +193,6 @@ describe("useUniverseDefinitions", () => {
         service: "equity_barrier_option",
         region: "LDN",
         submittedBy: "Carol",
-        canUploadSUD: true,
       },
     ]);
 

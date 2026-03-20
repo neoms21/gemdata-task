@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
 import { Upload } from "lucide-react";
 import {
   Dialog,
@@ -8,36 +7,44 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  useDeleteUniverseDefinition,
+  useUploadUniverseDefinition,
+} from "@/queries/useUniverseDefinitions";
+import { type UniverseDefinitionItem } from "@/types/universe-definition";
 import { getMetadataFromFileName } from "@/helpers/getMetadata";
-import { API_URL } from "@/helpers/constants";
 
 interface UploadModalProps {
   children: React.ReactElement;
+  universeDefinition?: UniverseDefinitionItem;
 }
 
-export const UploadModal = ({ children }: UploadModalProps) => {
-  const queryClient = useQueryClient();
+export const UploadModal = ({
+  children,
+  universeDefinition,
+}: UploadModalProps) => {
+  const deleteMutation = useDeleteUniverseDefinition();
+  const uploadMutation = useUploadUniverseDefinition();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
+  const [validationError, setValidationError] = useState<string | null>(null);
 
   const handleUploadClick = React.useCallback(() => {
-    setError(null);
+    setValidationError(null);
     setIsOpen(true);
-    if (fileInputRef.current) {
+    if (fileInputRef.current && !universeDefinition) {
       fileInputRef.current.click();
     }
-  }, []);
+  }, [universeDefinition]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setError(null);
+    setValidationError(null);
     const file = event.target.files?.[0];
     if (file) {
       const metadata = getMetadataFromFileName(file.name);
       if (!metadata.isFileNameValid) {
-        setError(
+        setValidationError(
           "Unable to generate metadata as filename is not valid. filename should be in the format: assetclass_producttype_type_region.csv",
         );
         setSelectedFile(null);
@@ -48,7 +55,6 @@ export const UploadModal = ({ children }: UploadModalProps) => {
   };
 
   const handleContainerUploadClick = React.useCallback(() => {
-    setError(null);
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
@@ -57,44 +63,26 @@ export const UploadModal = ({ children }: UploadModalProps) => {
   const handleConfirmUpload = async () => {
     if (!selectedFile) return;
 
-    setIsUploading(true);
-    setError(null);
+    //if replacing an existing universe definition, delete it first
+    if (universeDefinition) {
+      await deleteMutation.mutateAsync(universeDefinition.id);
+    }
+
+    const metadata = getMetadataFromFileName(selectedFile.name);
+    const newEntry = {
+      date: metadata.date,
+      service: metadata.service,
+      region: metadata.region,
+      submittedBy: metadata.uploadedBy || "System",
+      canUploadSUD: true,
+    };
 
     try {
-      const metadata = getMetadataFromFileName(selectedFile.name);
-      const newEntry = {
-        id: Date.now().toString(),
-        date: metadata.date,
-        service: metadata.service,
-        region: metadata.region,
-        submittedBy: metadata.uploadedBy || "System",
-        canUploadSUD: true,
-      };
-
-      const res = await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newEntry),
-      });
-
-      if (!res.ok) {
-        throw new Error(
-          "Failed to save data. Ensure json-server is running on port 3000.",
-        );
-      }
-
+      await uploadMutation.mutateAsync(newEntry);
       setIsOpen(false);
       setSelectedFile(null);
-      // Invalidate query to reflect newly added data
-      await queryClient.invalidateQueries({
-        queryKey: ["universeDefinitions"],
-      });
-    } catch (err: unknown) {
-      setError(
-        err instanceof Error ? err.message : "An unexpected error occurred",
-      );
-    } finally {
-      setIsUploading(false);
+    } catch {
+      // Error is captured by the mutation state for UI display
     }
   };
 
@@ -115,14 +103,21 @@ export const UploadModal = ({ children }: UploadModalProps) => {
         onOpenChange={(open) => {
           setIsOpen(open);
           if (!open) {
-            setError(null);
             setSelectedFile(null);
           }
         }}
       >
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Upload Universe Definition</DialogTitle>
+            <DialogTitle>
+              Upload Universe Definition
+              <br />
+              {universeDefinition && (
+                <span className="ml-2 py-0.5 px-2 bg-gray-100 rounded text-xs font-normal text-gray-500">
+                  {universeDefinition.service} ({universeDefinition.region})
+                </span>
+              )}
+            </DialogTitle>
             <DialogDescription>
               Select a CSV file to define your universe.
             </DialogDescription>
@@ -156,9 +151,9 @@ export const UploadModal = ({ children }: UploadModalProps) => {
                 </button>
               </div>
             )}
-            {error && (
+            {(validationError || uploadMutation.error) && (
               <span className="text-xs text-red-600 text-center font-medium">
-                {error}
+                {validationError || uploadMutation.error?.message}
               </span>
             )}
           </div>
@@ -170,11 +165,11 @@ export const UploadModal = ({ children }: UploadModalProps) => {
               Cancel
             </button>
             <button
-              disabled={!selectedFile || isUploading}
+              disabled={!selectedFile || uploadMutation.isPending}
               onClick={handleConfirmUpload}
               className="px-4 py-2 text-sm font-medium text-white bg-[#09090b] hover:bg-[#27272a] rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isUploading ? "Uploading..." : "Confirm Upload"}
+              {uploadMutation.isPending ? "Uploading..." : "Confirm Upload"}
             </button>
           </div>
         </DialogContent>

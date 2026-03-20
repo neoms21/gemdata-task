@@ -28,7 +28,7 @@ export const ActionsCell = ({
         <Download className="w-4 h-4" strokeWidth={1.5} />
       </button>
       <button className="py-1 px-1.5 border border-gray-900 rounded-[5px] bg-[#18181b] text-white hover:bg-black transition-colors shadow-sm">
-        <UploadModal>
+        <UploadModal universeDefinition={row.original}>
           <Upload className="w-4 h-4" strokeWidth={1.5} />
         </UploadModal>
       </button>

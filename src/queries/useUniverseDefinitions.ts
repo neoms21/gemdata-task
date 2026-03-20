@@ -66,3 +66,26 @@ export function useDeleteUniverseDefinition() {
     },
   });
 }
+
+export function useUploadUniverseDefinition() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (newEntry: Omit<UniverseDefinitionItem, "id">) => {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...newEntry,
+          id: Date.now().toString(),
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to upload universe definition");
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["universeDefinitions"] });
+    },
+  });
+}

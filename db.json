@@ -17,14 +17,6 @@
       "canUploadSUD": true
     },
     {
-      "id": "1774008507659",
-      "date": "2026-03-20T12:08:27.659Z",
-      "service": "equity_forward_ndf",
-      "region": "SGP",
-      "submittedBy": "Jack Smith",
-      "canUploadSUD": true
-    },
-    {
       "id": "1774008516553",
       "date": "2026-03-20T12:08:36.553Z",
       "service": "equity_barrier_option",
@@ -39,6 +31,22 @@
       "region": "HKG",
       "submittedBy": "Winston Breiten",
       "canUploadSUD": true
+    },
+    {
+      "date": "2026-03-20T14:26:31.694Z",
+      "service": "equity_forward_ndf",
+      "region": "SGP",
+      "submittedBy": "Clay Simonis",
+      "canUploadSUD": true,
+      "id": "1774016791694"
+    },
+    {
+      "date": "2026-03-20T14:28:59.623Z",
+      "service": "equity_vanilla_option",
+      "region": "SGP",
+      "submittedBy": "Shane Haley",
+      "canUploadSUD": true,
+      "id": "1774016939624"
     }
   ]
 }

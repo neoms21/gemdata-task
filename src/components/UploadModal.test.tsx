@@ -211,7 +211,9 @@ describe("UploadModal component", () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText(/Failed to save data/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/Failed to upload universe definition/i),
+      ).toBeInTheDocument();
     });
 
     expect(reloadMock).not.toHaveBeenCalled();
