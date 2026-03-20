@@ -1,4 +1,4 @@
-import { Globe, ArrowUpRight, Upload } from "lucide-react";
+import { Globe, Upload } from "lucide-react";
 import { UploadModal } from "@/components/UploadModal";
 
 export const UploadUniverseDefinition = () => {
@@ -19,13 +19,6 @@ export const UploadUniverseDefinition = () => {
           Upload SUD
         </button>
       </UploadModal>
-      <a
-        href="#"
-        className="flex items-center gap-1.5 text-[13px] font-medium text-[#71717a] hover:text-[#09090b] transition-colors"
-      >
-        Learn more about Universe Definition
-        <ArrowUpRight className="w-4 h-4" strokeWidth={2.5} />
-      </a>
     </div>
   );
 };

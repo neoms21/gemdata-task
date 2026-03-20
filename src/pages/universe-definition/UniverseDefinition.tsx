@@ -17,7 +17,7 @@ export function UniverseDefinition() {
       <div className="px-8 py-6">
         {/* Page Header */}
         <div className="flex justify-between items-center mb-6 pb-6 border-b border-gray-200">
-          <h1 className="text-[26px] font-bold text-[#09090b] tracking-tight">
+          <h1 className="text-lg font-bold text-[#09090b]">
             Universe Definition
           </h1>
           {data.length > 0 && (
