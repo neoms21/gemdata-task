@@ -31,7 +31,7 @@ export function renderWithClient(ui: React.ReactElement) {
 const mockData = [
   {
     id: "1",
-    date: "Latest",
+    date: "2026-03-20T11:39:16.895Z",
     service: "equity_vanilla_option",
     region: "HKG",
     submittedBy: "Theodore Duncan",
@@ -39,7 +39,7 @@ const mockData = [
   },
   {
     id: "2",
-    date: "15/12/2025 03:17 PM",
+    date: "2025-12-15T15:17:00.000Z",
     service: "equity_forward_ndf",
     region: "SGP",
     submittedBy: "Declan O'Connell",

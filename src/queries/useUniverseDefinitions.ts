@@ -13,11 +13,12 @@ const orderDataAndFormatDate = (data: UniverseDefinitionItem[]) => {
 
   const seenServices = new Set<string>();
   return sorted.map((item) => {
+    const originalDate = format(new Date(item.date), DATE_FORMAT);
     if (!seenServices.has(item.service)) {
       seenServices.add(item.service);
-      return { ...item, date: "Latest" };
+      return { ...item, date: "Latest", originalDate };
     }
-    return { ...item, date: format(new Date(item.date), DATE_FORMAT) };
+    return { ...item, date: originalDate, originalDate };
   });
 };
 

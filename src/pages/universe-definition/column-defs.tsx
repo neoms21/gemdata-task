@@ -1,7 +1,8 @@
 import { type ColumnDef } from "@tanstack/react-table";
 import { type UniverseDefinitionItem } from "../../types/universe-definition";
 import { Checkbox } from "../../components/ui/checkbox";
-import { Download, MoreVertical, Upload } from "lucide-react";
+import { Download, Info, MoreVertical, Upload } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../../components/ui/tooltip";
 
 export const columns: ColumnDef<UniverseDefinitionItem>[] = [
   {
@@ -36,11 +37,30 @@ export const columns: ColumnDef<UniverseDefinitionItem>[] = [
   {
     accessorKey: "date",
     header: "Date",
-    cell: ({ row }) => (
-      <span className="text-[13px] text-gray-900 font-medium">
-        {row.getValue("date")}
-      </span>
-    ),
+    cell: ({ row }) => {
+      const date = row.getValue("date") as string;
+      const originalDate = row.original.originalDate;
+
+      if (date === "Latest" && originalDate) {
+        return (
+          <div className="flex items-center gap-1.5">
+            <span className="text-[13px] text-gray-900 font-medium">{date}</span>
+            <Tooltip>
+              <TooltipTrigger className="cursor-help transition-colors text-gray-400 hover:text-gray-600 outline-none">
+                <Info className="w-3.5 h-3.5" strokeWidth={2} />
+              </TooltipTrigger>
+              <TooltipContent className="bg-[#18181b] text-white border-0 py-1.5 px-3 rounded-lg shadow-xl text-xs font-medium">
+                Uploaded: {originalDate}
+              </TooltipContent>
+            </Tooltip>
+          </div>
+        );
+      }
+
+      return (
+        <span className="text-[13px] text-gray-900 font-medium">{date}</span>
+      );
+    },
   },
   {
     accessorKey: "service",

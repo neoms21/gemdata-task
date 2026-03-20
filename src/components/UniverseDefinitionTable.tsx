@@ -17,6 +17,7 @@ import { columns } from "../pages/universe-definition/column-defs";
 import type { UniverseDefinitionItem } from "../types/universe-definition";
 import { UniverseDefinitionToolbar } from "./UniverseDefinitionToolbar";
 import { UniverseDefinitionFooter } from "./UniverseDefinitionFooter";
+import { TooltipProvider } from "./ui/tooltip";
 
 const PAGE_SIZE = 7;
 
@@ -59,7 +60,7 @@ export function UniverseDefinitionTable({
   const { pageIndex } = table.getState().pagination;
 
   return (
-    <>
+    <TooltipProvider delay={200}>
       <UniverseDefinitionToolbar
         data={data}
         searchTerm={searchTerm}
@@ -136,6 +137,6 @@ export function UniverseDefinitionTable({
         onPreviousPage={() => table.previousPage()}
         onNextPage={() => table.nextPage()}
       />
-    </>
+    </TooltipProvider>
   );
 }
