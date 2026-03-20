@@ -1,3 +1,12 @@
 {
-  "universeDefinitions": []
+  "universeDefinitions": [
+    {
+      "id": "1774004767587",
+      "date": "Latest",
+      "service": "equity_vanilla_option",
+      "region": "LDN",
+      "submittedBy": "Manoj S.",
+      "canUploadSUD": true
+    }
+  ]
 }
