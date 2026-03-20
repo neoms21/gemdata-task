@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {
   PanelLeft,
   ChevronRight,
@@ -12,7 +12,7 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { mockUniverseData } from "../../types/universe-definition";
+import type { UniverseDefinitionItem } from "../../types/universe-definition";
 import {
   Table,
   TableBody,
@@ -28,15 +28,34 @@ const PAGE_SIZE = 7;
 export function UniverseDefinition() {
   const [searchTerm, setSearchTerm] = useState("");
   const [rowSelection, setRowSelection] = useState({});
+  const [data, setData] = useState<UniverseDefinitionItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/universeDefinitions")
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch data");
+        return res.json();
+      })
+      .then((fetchedData) => {
+        setData(fetchedData);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
 
   const filteredData = useMemo(
     () =>
-      mockUniverseData.filter(
+      data.filter(
         (item) =>
           item.service.toLowerCase().includes(searchTerm.toLowerCase()) ||
           item.submittedBy.toLowerCase().includes(searchTerm.toLowerCase()),
       ),
-    [searchTerm],
+    [searchTerm, data],
   );
 
   const table = useReactTable({
@@ -113,59 +132,65 @@ export function UniverseDefinition() {
 
         {/* Table */}
         <div className="border border-gray-200 rounded-xl bg-white shadow-sm overflow-hidden">
-          <Table>
-            <TableHeader className="bg-white border-0">
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow
-                  key={headerGroup.id}
-                  className="border-b border-gray-200 hover:bg-white"
-                >
-                  {headerGroup.headers.map((header) => (
-                    <TableHead
-                      key={header.id}
-                      className="font-semibold text-gray-900 text-[13px] h-11"
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                    </TableHead>
-                  ))}
-                </TableRow>
-              ))}
-            </TableHeader>
-            <TableBody>
-              {table.getRowModel().rows.length ? (
-                table.getRowModel().rows.map((row) => (
+          {error ? (
+            <div className="p-8 text-center text-red-500">Error: {error}</div>
+          ) : loading ? (
+            <div className="p-8 text-center text-gray-500">Loading data...</div>
+          ) : (
+            <Table>
+              <TableHeader className="bg-white border-0">
+                {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                    className="hover:bg-gray-50 transition-colors border-0 border-b border-gray-100 last:border-0"
+                    key={headerGroup.id}
+                    className="border-b border-gray-200 hover:bg-white"
                   >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id} className="py-3">
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </TableCell>
+                    {headerGroup.headers.map((header) => (
+                      <TableHead
+                        key={header.id}
+                        className="font-semibold text-gray-900 text-[13px] h-11"
+                      >
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext(),
+                            )}
+                      </TableHead>
                     ))}
                   </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center text-gray-400 text-sm"
-                  >
-                    No results found.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+                ))}
+              </TableHeader>
+              <TableBody>
+                {table.getRowModel().rows.length ? (
+                  table.getRowModel().rows.map((row) => (
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && "selected"}
+                      className="hover:bg-gray-50 transition-colors border-0 border-b border-gray-100 last:border-0"
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id} className="py-3">
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length}
+                      className="h-24 text-center text-gray-400 text-sm"
+                    >
+                      No results found.
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          )}
         </div>
 
         {/* Footer */}

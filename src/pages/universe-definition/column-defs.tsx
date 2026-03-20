@@ -1,7 +1,7 @@
 import { type ColumnDef } from "@tanstack/react-table";
 import { type UniverseDefinitionItem } from "../../types/universe-definition";
 import { Checkbox } from "../../components/ui/checkbox";
-import { Check, Download, MoreVertical, Upload } from "lucide-react";
+import { Download, MoreVertical, Upload } from "lucide-react";
 
 export const columns: ColumnDef<UniverseDefinitionItem>[] = [
   {
@@ -10,7 +10,10 @@ export const columns: ColumnDef<UniverseDefinitionItem>[] = [
       <div className="flex items-center justify-center">
         <Checkbox
           checked={table.getIsAllPageRowsSelected()}
-          indeterminate={table.getIsSomePageRowsSelected() && !table.getIsAllPageRowsSelected()}
+          indeterminate={
+            table.getIsSomePageRowsSelected() &&
+            !table.getIsAllPageRowsSelected()
+          }
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
           aria-label="Select all"
           className="rounded-sm data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
@@ -84,18 +87,5 @@ export const columns: ColumnDef<UniverseDefinitionItem>[] = [
         </button>
       </div>
     ),
-  },
-  {
-    id: "canUploadSUD",
-    header: () => null,
-    cell: ({ row }) =>
-      row.original.canUploadSUD ? (
-        <div className="flex justify-center">
-          <div className="inline-flex items-center justify-center w-5 h-5 rounded-sm bg-blue-600">
-            <Check className="w-3.5 h-3.5 text-white" strokeWidth={3} />
-          </div>
-        </div>
-      ) : null,
-    enableHiding: true,
   },
 ];
