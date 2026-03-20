@@ -18,7 +18,7 @@
     },
     {
       "id": "1774008484230",
-      "date": "2026-03-20T12:08:04.230Z",
+      "date": "2026-03-20T12:10:04.230Z",
       "service": "equity_barrier_option",
       "region": "HKG",
       "submittedBy": "Manoj S.",
@@ -38,6 +38,14 @@
       "service": "equity_barrier_option",
       "region": "HKG",
       "submittedBy": "Manoj S.",
+      "canUploadSUD": true
+    },
+    {
+      "id": "1774011829746",
+      "date": "2026-03-20T13:03:49.746Z",
+      "service": "equity_barrier_option",
+      "region": "HKG",
+      "submittedBy": "Winston Breiten",
       "canUploadSUD": true
     }
   ]

@@ -20,7 +20,7 @@ describe("getMetadataFromFileName", () => {
       region: "LDN",
       date: mockDate.toISOString(),
       isFileNameValid: true,
-      uploadedBy: "Manoj S.",
+      uploadedBy: expect.any(String),
     });
   });
 

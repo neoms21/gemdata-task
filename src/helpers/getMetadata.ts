@@ -1,3 +1,5 @@
+import { faker } from "@faker-js/faker";
+
 type FileMetadata = {
   service: string;
   region: string;
@@ -24,6 +26,6 @@ export const getMetadataFromFileName = (fileName: string): FileMetadata => {
     region: region.toUpperCase(),
     date: new Date().toISOString(),
     isFileNameValid: true,
-    uploadedBy: "Manoj S.",
+    uploadedBy: faker.person.fullName(),
   };
 };
