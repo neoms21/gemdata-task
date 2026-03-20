@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
+    "coverage": "vitest run --coverage",
     "server": "json-server db.json --port 3000"
   },
   "dependencies": {
@@ -40,6 +41,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.0",
+    "@vitest/coverage-v8": "^3.2.4",
     "autoprefixer": "^10.4.27",
     "concurrently": "^9.2.1",
     "eslint": "^9.39.4",
