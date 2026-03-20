@@ -24,14 +24,20 @@ export const ActionsCell = ({
 
   return (
     <div className="flex items-center justify-center gap-2">
-      <button className="py-1 px-1.5 border border-gray-200 rounded-[5px] text-gray-600 hover:bg-gray-50 transition-colors shadow-sm bg-white">
+      <button
+        type="button"
+        className="py-1 px-1.5 border border-gray-200 rounded-[5px] text-gray-600 hover:bg-gray-50 transition-colors shadow-sm bg-white"
+      >
         <Download className="w-4 h-4" strokeWidth={1.5} />
       </button>
-      <button className="py-1 px-1.5 border border-gray-900 rounded-[5px] bg-[#18181b] text-white hover:bg-black transition-colors shadow-sm">
-        <UploadModal universeDefinition={row.original}>
+      <UploadModal universeDefinition={row.original}>
+        <button
+          type="button"
+          className="py-1 px-1.5 border border-gray-900 rounded-[5px] bg-[#18181b] text-white hover:bg-black transition-colors shadow-sm"
+        >
           <Upload className="w-4 h-4" strokeWidth={1.5} />
-        </UploadModal>
-      </button>
+        </button>
+      </UploadModal>
       <DropdownMenu>
         <DropdownMenuTrigger>
           <MoreVertical className="w-4 h-4" strokeWidth={1.5} />
