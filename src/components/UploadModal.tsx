@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { Upload } from "lucide-react";
 import {
   Dialog,
@@ -14,6 +15,7 @@ interface UploadModalProps {
 }
 
 export const UploadModal = ({ children }: UploadModalProps) => {
+  const queryClient = useQueryClient();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -82,8 +84,8 @@ export const UploadModal = ({ children }: UploadModalProps) => {
 
       setIsOpen(false);
       setSelectedFile(null);
-      // Reload page to reflect newly added data
-      window.location.reload();
+      // Invalidate query to reflect newly added data
+      await queryClient.invalidateQueries({ queryKey: ["universeDefinitions"] });
     } catch (err: unknown) {
       setError(
         err instanceof Error ? err.message : "An unexpected error occurred",

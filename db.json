@@ -13,7 +13,7 @@
       "date": "2026-03-20T11:39:16.895Z",
       "service": "equity_vanilla_option",
       "region": "LDN",
-      "submittedBy": "Manoj S.",
+      "submittedBy": "Alice S.",
       "canUploadSUD": true
     },
     {
@@ -21,7 +21,7 @@
       "date": "2026-03-20T12:10:04.230Z",
       "service": "equity_barrier_option",
       "region": "HKG",
-      "submittedBy": "Manoj S.",
+      "submittedBy": "Brad Williams",
       "canUploadSUD": true
     },
     {
@@ -29,7 +29,7 @@
       "date": "2026-03-20T12:08:27.659Z",
       "service": "equity_forward_ndf",
       "region": "SGP",
-      "submittedBy": "Manoj S.",
+      "submittedBy": "Jack Smith",
       "canUploadSUD": true
     },
     {
@@ -37,7 +37,7 @@
       "date": "2026-03-20T12:08:36.553Z",
       "service": "equity_barrier_option",
       "region": "HKG",
-      "submittedBy": "Manoj S.",
+      "submittedBy": "John Doe",
       "canUploadSUD": true
     },
     {
@@ -46,6 +46,14 @@
       "service": "equity_barrier_option",
       "region": "HKG",
       "submittedBy": "Winston Breiten",
+      "canUploadSUD": true
+    },
+    {
+      "id": "1774014091958",
+      "date": "2026-03-20T13:41:31.958Z",
+      "service": "equity_barrier_option",
+      "region": "HKG",
+      "submittedBy": "Nikki Howe",
       "canUploadSUD": true
     }
   ]

@@ -4,6 +4,15 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { http, HttpResponse } from "msw";
 import { server } from "../test/setup";
 import { UploadModal } from "./UploadModal";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+  },
+});
 
 describe("UploadModal component", () => {
   const reloadMock = vi.fn();
@@ -19,18 +28,22 @@ describe("UploadModal component", () => {
 
   it("renders trigger element", () => {
     render(
-      <UploadModal>
-        <button>Test Trigger</button>
-      </UploadModal>,
+      <QueryClientProvider client={queryClient}>
+        <UploadModal>
+          <button>Test Trigger</button>
+        </UploadModal>
+      </QueryClientProvider>,
     );
     expect(screen.getByText("Test Trigger")).toBeInTheDocument();
   });
 
   it("opens modal on trigger click", async () => {
     render(
-      <UploadModal>
-        <button>Test Trigger</button>
-      </UploadModal>,
+      <QueryClientProvider client={queryClient}>
+        <UploadModal>
+          <button>Test Trigger</button>
+        </UploadModal>
+      </QueryClientProvider>,
     );
     await userEvent.click(screen.getByText("Test Trigger"));
 
@@ -42,9 +55,11 @@ describe("UploadModal component", () => {
 
   it("shows error for invalid file name", async () => {
     const { container } = render(
-      <UploadModal>
-        <button>Test Trigger</button>
-      </UploadModal>,
+      <QueryClientProvider client={queryClient}>
+        <UploadModal>
+          <button>Test Trigger</button>
+        </UploadModal>
+      </QueryClientProvider>,
     );
 
     await userEvent.click(screen.getByText("Test Trigger"));
@@ -66,9 +81,11 @@ describe("UploadModal component", () => {
 
   it("shows selected file details for valid file name", async () => {
     const { container } = render(
-      <UploadModal>
-        <button>Test Trigger</button>
-      </UploadModal>,
+      <QueryClientProvider client={queryClient}>
+        <UploadModal>
+          <button>Test Trigger</button>
+        </UploadModal>
+      </QueryClientProvider>,
     );
 
     await userEvent.click(screen.getByText("Test Trigger"));
@@ -119,9 +136,11 @@ describe("UploadModal component", () => {
     );
 
     const { container } = render(
-      <UploadModal>
-        <button>Test Trigger</button>
-      </UploadModal>,
+      <QueryClientProvider client={queryClient}>
+        <UploadModal>
+          <button>Test Trigger</button>
+        </UploadModal>
+      </QueryClientProvider>,
     );
 
     await userEvent.click(screen.getByText("Test Trigger"));
@@ -140,6 +159,9 @@ describe("UploadModal component", () => {
       ).not.toBeDisabled();
     });
 
+    // Spy on invalidateQueries
+    const invalidateSpy = vi.spyOn(queryClient, "invalidateQueries");
+
     await userEvent.click(
       screen.getByRole("button", { name: "Confirm Upload" }),
     );
@@ -148,9 +170,11 @@ describe("UploadModal component", () => {
       expect(postData).toBeTruthy();
     });
 
-    expect(postData?.service).toBe("equity_vanilla_option");
-    expect(postData?.region).toBe("HKG");
-    expect(reloadMock).toHaveBeenCalled();
+    expect(postData!.service).toBe("equity_vanilla_option");
+    expect(postData!.region).toBe("HKG");
+    expect(invalidateSpy).toHaveBeenCalledWith({
+      queryKey: ["universeDefinitions"],
+    });
   });
 
   it("shows error on failed upload", async () => {
@@ -161,9 +185,11 @@ describe("UploadModal component", () => {
     );
 
     const { container } = render(
-      <UploadModal>
-        <button>Test Trigger</button>
-      </UploadModal>,
+      <QueryClientProvider client={queryClient}>
+        <UploadModal>
+          <button>Test Trigger</button>
+        </UploadModal>
+      </QueryClientProvider>,
     );
 
     await userEvent.click(screen.getByText("Test Trigger"));
