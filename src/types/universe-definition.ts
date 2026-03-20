@@ -5,4 +5,5 @@ export interface UniverseDefinitionItem {
   service: string;
   region: string;
   submittedBy: string;
+  data?: string;
 }

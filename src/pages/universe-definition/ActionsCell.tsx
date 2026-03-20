@@ -22,11 +22,34 @@ export const ActionsCell = ({
     }
   };
 
+  const handleDownload = () => {
+    if (!row.original.data) return;
+
+    const blob = new Blob([row.original.data], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${row.original.service}_${row.original.region}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const hasData = !!row.original.data;
+
   return (
     <div className="flex items-center justify-center gap-2">
       <button
         type="button"
-        className="py-1 px-1.5 border border-gray-200 rounded-[5px] text-gray-600 hover:bg-gray-50 transition-colors shadow-sm bg-white"
+        onClick={handleDownload}
+        disabled={!hasData}
+        title={hasData ? "Download CSV" : "No data available"}
+        className={`py-1 px-1.5 border border-gray-200 rounded-[5px] transition-colors shadow-sm bg-white ${
+          hasData
+            ? "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+            : "text-gray-300 cursor-not-allowed opacity-50"
+        }`}
       >
         <Download className="w-4 h-4" strokeWidth={1.5} />
       </button>

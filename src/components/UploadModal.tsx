@@ -29,17 +29,20 @@ export const UploadModal = ({
   const [isOpen, setIsOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [validationError, setValidationError] = useState<string | null>(null);
+  const [previewText, setPreviewText] = useState<string | null>(null);
 
   const handleUploadClick = React.useCallback(() => {
     setValidationError(null);
+    setPreviewText(null);
     setIsOpen(true);
     if (fileInputRef.current && !universeDefinition) {
       fileInputRef.current.click();
     }
   }, [universeDefinition]);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     setValidationError(null);
+    setPreviewText(null);
     const file = event.target.files?.[0];
     if (file) {
       const metadata = getMetadataFromFileName(file.name);
@@ -50,7 +53,19 @@ export const UploadModal = ({
         setSelectedFile(null);
         return;
       }
-      setSelectedFile(file);
+
+      // Get preview and content using FileReader for better compatibility
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const fullText = e.target?.result as string;
+        const lines = fullText.split("\n").slice(0, 3);
+        setPreviewText(lines.join("\n"));
+        setSelectedFile(file);
+      };
+      reader.onerror = () => {
+        setValidationError("Failed to read file content.");
+      };
+      reader.readAsText(file);
     }
   };
 
@@ -68,22 +83,30 @@ export const UploadModal = ({
       await deleteMutation.mutateAsync(universeDefinition.id);
     }
 
-    const metadata = getMetadataFromFileName(selectedFile.name);
-    const newEntry = {
-      date: metadata.date,
-      service: metadata.service,
-      region: metadata.region,
-      submittedBy: metadata.uploadedBy || "System",
-      canUploadSUD: true,
-    };
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      try {
+        const fileContent = e.target?.result as string;
+        const metadata = getMetadataFromFileName(selectedFile.name);
 
-    try {
-      await uploadMutation.mutateAsync(newEntry);
-      setIsOpen(false);
-      setSelectedFile(null);
-    } catch {
-      // Error is captured by the mutation state for UI display
-    }
+        const newEntry = {
+          date: metadata.date,
+          service: metadata.service,
+          region: metadata.region,
+          submittedBy: metadata.uploadedBy || "System",
+          canUploadSUD: true,
+          data: fileContent,
+        };
+
+        await uploadMutation.mutateAsync(newEntry);
+        setIsOpen(false);
+        setSelectedFile(null);
+        setPreviewText(null);
+      } catch {
+        // Error is captured by the mutation state for UI display
+      }
+    };
+    reader.readAsText(selectedFile);
   };
 
   return (
@@ -149,6 +172,19 @@ export const UploadModal = ({
                 >
                   Browse again
                 </button>
+              </div>
+            )}
+            {previewText && (
+              <div className="flex flex-col gap-1.5 overflow-hidden">
+                <span className="text-[11px] font-bold text-gray-400 uppercase tracking-tight px-1">
+                  File Preview
+                </span>
+                <div className="p-3 bg-gray-950 rounded-lg border border-gray-800">
+                  <pre className="text-[11px] font-mono text-gray-300 whitespace-pre-wrap break-all leading-relaxed">
+                    {previewText}
+                    {previewText.split("\n").length >= 3 && "\n..."}
+                  </pre>
+                </div>
               </div>
             )}
             {(validationError || uploadMutation.error) && (

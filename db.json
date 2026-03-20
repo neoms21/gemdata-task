@@ -27,6 +27,15 @@
       "region": "LDN",
       "submittedBy": "Kelvin Prohaska",
       "id": "1774017287708"
+    },
+    {
+      "date": "2026-03-20T14:52:01.926Z",
+      "service": "equity_forward_ndf",
+      "region": "SGP",
+      "submittedBy": "Curtis Reichel",
+      "canUploadSUD": true,
+      "data": "Underlier,trading_region,date_min_current,date_max_current,strike_min_current,strike_max_current\nspx +,HKG +,1d +,10y +,50 +,200 +\nmstf.n,AMER,1m +,5y +,50,150\nmstf.n,AMER,1w -,10y -,50,150\nnikkei,APAC,1w,10y,75 +,200 +\nnikkei,APAC,1w,10y,50 -,150 -\n",
+      "id": "1774018321927"
     }
   ]
 }
