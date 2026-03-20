@@ -1,2 +1,6 @@
 1. Replacing the unvierse definition: should it validate that exact same name file is uploaded?
 2. Page still refreshes after uploading a new universe definition.
+3. End to end test cases.
+4. Date - not implemented. I believe it requires filter wih date range selection rather than all the dates from data.
+5. Filters can be dynamically generated from the data
+6. Type - not implemented. I completely missed writing this one from the call and could not recall when I got to implementing this.
