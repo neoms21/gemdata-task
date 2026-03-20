@@ -157,7 +157,6 @@ describe("useUniverseDefinitions", () => {
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
     const hkg1Item = result.current.data?.find((item) => item.id === "1");
-    console.log("🚀 ~ hkg1Item:", hkg1Item);
     expect(hkg1Item?.date).toBe("Latest");
 
     const hkg2Item = result.current.data?.find((item) => item.id === "2");

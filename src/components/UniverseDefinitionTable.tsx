@@ -29,16 +29,22 @@ export function UniverseDefinitionTable({
 }: UniverseDefinitionTableProps) {
   const [rowSelection, setRowSelection] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
-  const filteredData = useMemo(
-    () =>
-      data.filter(
-        (item) =>
-          item.service.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          item.submittedBy.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          item.region.toLowerCase().includes(searchTerm.toLowerCase()),
-      ),
-    [searchTerm, data],
-  );
+  const [regionFilter, setRegionFilter] = useState<string>("All");
+  const [serviceFilter, setServiceFilter] = useState<string>("All");
+
+  const filteredData = useMemo(() => {
+    return data.filter((item) => {
+      const matchesSearch =
+        item.service.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.submittedBy.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.region.toLowerCase().includes(searchTerm.toLowerCase());
+
+      const matchesRegion = regionFilter === "All" || item.region === regionFilter;
+      const matchesService = serviceFilter === "All" || item.service === serviceFilter;
+
+      return matchesSearch && matchesRegion && matchesService;
+    });
+  }, [searchTerm, regionFilter, serviceFilter, data]);
 
   const table = useReactTable({
     data: filteredData,
@@ -55,8 +61,13 @@ export function UniverseDefinitionTable({
   return (
     <>
       <UniverseDefinitionToolbar
+        data={data}
         searchTerm={searchTerm}
         onSearchChange={setSearchTerm}
+        regionFilter={regionFilter}
+        onRegionFilterChange={setRegionFilter}
+        serviceFilter={serviceFilter}
+        onServiceFilterChange={setServiceFilter}
       />
 
       {/* Table */}
