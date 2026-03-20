@@ -1,20 +1,6 @@
 {
   "universeDefinitions": [
     {
-      "id": "1774008484230",
-      "date": "2026-03-20T12:10:04.230Z",
-      "service": "equity_barrier_option",
-      "region": "HKG",
-      "submittedBy": "Brad Williams"
-    },
-    {
-      "id": "1774011829746",
-      "date": "2026-03-20T13:03:49.746Z",
-      "service": "equity_barrier_option",
-      "region": "HKG",
-      "submittedBy": "Winston Breiten"
-    },
-    {
       "date": "2026-03-20T14:26:31.694Z",
       "service": "equity_forward_ndf",
       "region": "SGP",
@@ -41,22 +27,6 @@
       "region": "LDN",
       "submittedBy": "Kelvin Prohaska",
       "id": "1774017287708"
-    },
-    {
-      "date": "2026-03-20T14:38:19.457Z",
-      "service": "equity_barrier_option",
-      "region": "HKG",
-      "submittedBy": "Jefferey Pfannerstill",
-      "canUploadSUD": true,
-      "id": "1774017499457"
-    },
-    {
-      "date": "2026-03-20T14:38:47.694Z",
-      "service": "equity_vanilla_option",
-      "region": "SGP",
-      "submittedBy": "Theron Reynolds",
-      "canUploadSUD": true,
-      "id": "1774017527696"
     }
   ]
 }

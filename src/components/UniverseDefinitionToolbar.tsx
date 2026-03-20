@@ -1,4 +1,4 @@
-import { ChevronDown, Calendar } from "lucide-react";
+import { ChevronDown, Calendar, Trash2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,6 +16,8 @@ interface UniverseDefinitionToolbarProps {
   onRegionFilterChange: (value: string) => void;
   serviceFilter: string;
   onServiceFilterChange: (value: string) => void;
+  selectedCount?: number;
+  onDelete?: () => void;
 }
 
 export function UniverseDefinitionToolbar({
@@ -26,6 +28,8 @@ export function UniverseDefinitionToolbar({
   onRegionFilterChange,
   serviceFilter,
   onServiceFilterChange,
+  selectedCount = 0,
+  onDelete,
 }: UniverseDefinitionToolbarProps) {
   // Extract unique values from data
   const regions = Array.from(new Set(data.map((item) => item.region))).sort();
@@ -43,7 +47,17 @@ export function UniverseDefinitionToolbar({
         />
       </div>
 
-      <div className="flex-1" />
+      <div className="flex-1">
+        {selectedCount > 0 && (
+          <button
+            onClick={onDelete}
+            className="flex items-center gap-2 px-3 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors animate-in fade-in slide-in-from-left-2 duration-300"
+          >
+            <Trash2 className="w-3.5 h-3.5" strokeWidth={2} />
+            Delete ({selectedCount})
+          </button>
+        )}
+      </div>
 
       <div className="flex items-center gap-2">
         {/* Region Filter */}

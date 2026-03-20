@@ -18,6 +18,7 @@ import type { UniverseDefinitionItem } from "../types/universe-definition";
 import { UniverseDefinitionToolbar } from "./UniverseDefinitionToolbar";
 import { UniverseDefinitionFooter } from "./UniverseDefinitionFooter";
 import { TooltipProvider } from "./ui/tooltip";
+import { useDeleteUniverseDefinition } from "../queries/useUniverseDefinitions";
 
 const PAGE_SIZE = 7;
 
@@ -28,10 +29,12 @@ interface UniverseDefinitionTableProps {
 export function UniverseDefinitionTable({
   data,
 }: UniverseDefinitionTableProps) {
-  const [rowSelection, setRowSelection] = useState({});
+  const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
   const [searchTerm, setSearchTerm] = useState("");
   const [regionFilter, setRegionFilter] = useState<string>("All");
   const [serviceFilter, setServiceFilter] = useState<string>("All");
+
+  const deleteMutation = useDeleteUniverseDefinition();
 
   const filteredData = useMemo(() => {
     return data.filter((item) => {
@@ -40,8 +43,10 @@ export function UniverseDefinitionTable({
         item.submittedBy.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.region.toLowerCase().includes(searchTerm.toLowerCase());
 
-      const matchesRegion = regionFilter === "All" || item.region === regionFilter;
-      const matchesService = serviceFilter === "All" || item.service === serviceFilter;
+      const matchesRegion =
+        regionFilter === "All" || item.region === regionFilter;
+      const matchesService =
+        serviceFilter === "All" || item.service === serviceFilter;
 
       return matchesSearch && matchesRegion && matchesService;
     });
@@ -58,6 +63,25 @@ export function UniverseDefinitionTable({
   });
 
   const { pageIndex } = table.getState().pagination;
+  const selectedRowsCount = Object.keys(rowSelection).length;
+
+  const handleBulkDelete = async () => {
+    const selectedRows = table.getSelectedRowModel().rows;
+    if (
+      selectedRows.length > 0 &&
+      confirm(`Are you sure you want to delete ${selectedRows.length} items?`)
+    ) {
+      try {
+        await Promise.all(
+          selectedRows.map((row) => deleteMutation.mutateAsync(row.original.id)),
+        );
+        setRowSelection({});
+      } catch (error) {
+        console.error("Bulk delete failed:", error);
+        alert("Failed to delete some items. Please try again.");
+      }
+    }
+  };
 
   return (
     <TooltipProvider delay={200}>
@@ -69,6 +93,8 @@ export function UniverseDefinitionTable({
         onRegionFilterChange={setRegionFilter}
         serviceFilter={serviceFilter}
         onServiceFilterChange={setServiceFilter}
+        selectedCount={selectedRowsCount}
+        onDelete={handleBulkDelete}
       />
 
       {/* Table */}
