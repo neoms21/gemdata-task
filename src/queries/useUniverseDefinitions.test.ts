@@ -30,7 +30,6 @@ const mockData: UniverseDefinitionItem[] = [
     service: "equity_forward_ndf",
     region: "SGP",
     submittedBy: "Bob",
-    canUploadSUD: false,
   },
   {
     id: "3",
@@ -137,7 +136,6 @@ describe("useUniverseDefinitions", () => {
         service: "equity_forward_ndf",
         region: "SGP",
         submittedBy: "Bob",
-        canUploadSUD: false,
       },
       {
         id: "4",

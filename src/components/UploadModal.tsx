@@ -167,6 +167,7 @@ export const UploadModal = ({
                   Waiting for file selection...
                 </p>
                 <button
+                  type="button"
                   onClick={handleContainerUploadClick}
                   className="text-sm font-medium text-blue-600 hover:text-blue-700"
                 >

@@ -68,6 +68,7 @@ export function UniverseDefinitionToolbar({
       <div className="flex-1">
         {selectedCount > 0 && (
           <button
+            type="button"
             onClick={onDelete}
             className="flex items-center gap-2 px-3 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors animate-in fade-in slide-in-from-left-2 duration-300"
           >
@@ -155,7 +156,7 @@ export function UniverseDefinitionToolbar({
         </div>
 
         {/* Type Filter - Static for now */}
-        <button className="bg-gray-50/80 hover:bg-gray-100 border border-gray-200 px-2.5 py-1.5 rounded-lg text-xs font-medium text-gray-700 flex items-center gap-2 transition-colors">
+        <button type="button" className="bg-gray-50/80 hover:bg-gray-100 border border-gray-200 px-2.5 py-1.5 rounded-lg text-xs font-medium text-gray-700 flex items-center gap-2 transition-colors">
           Type
           <ChevronDown className="w-3.5 h-3.5 text-gray-400" strokeWidth={2} />
         </button>

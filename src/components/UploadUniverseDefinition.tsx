@@ -14,7 +14,7 @@ export const UploadUniverseDefinition = () => {
         Upload a SUD file to create a new universe definition
       </p>
       <UploadModal>
-        <button className="bg-[#09090b] hover:bg-[#27272a] text-[#fafafa] px-5 py-[10px] rounded-lg shadow-sm flex items-center gap-2 text-sm font-medium transition-colors mb-10">
+        <button type="button" className="bg-[#09090b] hover:bg-[#27272a] text-[#fafafa] px-5 py-[10px] rounded-lg shadow-sm flex items-center gap-2 text-sm font-medium transition-colors mb-10">
           <Upload className="w-4 h-4" strokeWidth={2.5} />
           Upload SUD
         </button>

@@ -1,41 +1,6 @@
 {
   "universeDefinitions": [
     {
-      "date": "2026-02-20T14:26:31.694Z",
-      "service": "equity_forward_ndf",
-      "region": "SGP",
-      "submittedBy": "Clay Simonis",
-      "id": "1774016731694"
-    },
-    {
-      "date": "2026-03-20T14:26:31.694Z",
-      "service": "equity_forward_ndf",
-      "region": "SGP",
-      "submittedBy": "Clay Simonis",
-      "id": "1774016791694"
-    },
-    {
-      "date": "2026-03-20T14:28:59.623Z",
-      "service": "equity_vanilla_option",
-      "region": "SGP",
-      "submittedBy": "Shane Haley",
-      "id": "1774016939624"
-    },
-    {
-      "date": "2026-03-20T14:34:11.749Z",
-      "service": "equity_barrier_option",
-      "region": "HKG",
-      "submittedBy": "Francisco O'Reilly",
-      "id": "1774017251750"
-    },
-    {
-      "date": "2026-03-20T14:38:11.749Z",
-      "service": "equity_vanilla_option",
-      "region": "LDN",
-      "submittedBy": "Kelvin Prohaska",
-      "id": "1774017287708"
-    },
-    {
       "date": "2026-03-20T14:52:01.926Z",
       "service": "equity_forward_ndf",
       "region": "SGP",
@@ -45,22 +10,22 @@
       "id": "1774018321927"
     },
     {
-      "date": "2026-03-20T16:07:50.935Z",
-      "service": "equity_vanilla_option",
-      "region": "LDN",
-      "submittedBy": "Ricardo Kirlin",
-      "canUploadSUD": true,
-      "data": "Underlier,trading_region,date_min_current,date_max_current,strike_min_current,strike_max_current\nspx +,HKG +,1d +,10y +,50 +,200 +\nmstf.n,AMER,1m +,5y +,50,150\nmstf.n,AMER,1w -,10y -,50,150\nnikkei,APAC,1w,10y,75 +,200 +\nnikkei,APAC,1w,10y,50 -,150 -\n",
-      "id": "1774022870936"
-    },
-    {
-      "date": "2026-03-20T16:08:04.920Z",
+      "date": "2026-03-21T09:38:19.370Z",
       "service": "equity_vanilla_option",
       "region": "SGP",
-      "submittedBy": "Joaquin Walsh Jr.",
+      "submittedBy": "Joshua Labadie",
       "canUploadSUD": true,
       "data": "Underlier,trading_region,date_min_current,date_max_current,strike_min_current,strike_max_current\nspx +,HKG +,1d +,10y +,50 +,200 +\nmstf.n,AMER,1m +,5y +,50,150\nmstf.n,AMER,1w -,10y -,50,150\nnikkei,APAC,1w,10y,75 +,200 +\nnikkei,APAC,1w,10y,50 -,150 -\n",
-      "id": "1774022884921"
+      "id": "1774085899371"
+    },
+    {
+      "date": "2026-03-21T09:44:14.275Z",
+      "service": "equity_vanilla_option",
+      "region": "LDN",
+      "submittedBy": "Aubrey Thompson PhD",
+      "canUploadSUD": true,
+      "data": "Underlier,trading_region,date_min_current,date_max_current,strike_min_current,strike_max_current\nspx +,HKG +,1d +,10y +,50 +,200 +\nmstf.n,AMER,1m +,5y +,50,150\nmstf.n,AMER,1w -,10y -,50,150\nnikkei,APAC,1w,10y,75 +,200 +\nnikkei,APAC,1w,10y,50 -,150 -\n",
+      "id": "1774086254276"
     }
   ]
 }

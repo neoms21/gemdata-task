@@ -25,6 +25,7 @@ export function UniverseDefinitionFooter({
       </span>
       <div className="flex gap-2">
         <button
+          type="button"
           onClick={onPreviousPage}
           disabled={!canPreviousPage}
           className="flex items-center gap-1 px-4 py-1.5 border border-gray-200 rounded-lg hover:bg-gray-50 hover:text-gray-900 disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-xs font-medium"
@@ -32,6 +33,7 @@ export function UniverseDefinitionFooter({
           Previous
         </button>
         <button
+          type="button"
           onClick={onNextPage}
           disabled={!canNextPage}
           className="flex items-center gap-1 px-4 py-1.5 border border-gray-200 rounded-lg hover:bg-gray-50 hover:text-gray-900 disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-xs font-medium"
